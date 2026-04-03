@@ -1,0 +1,61 @@
+defaults:
+  - _self_
+  - config: siaBETA 
+
+hydra:
+  run:
+    dir: ${config.output_dir}/${hydra:job.name}-${now:%Y-%m-%d}/${now:%H-%M-%S}
+config:
+#brats2019数据集  
+  dataname: "brats2019" 
+  dark_path: '2019data/train/chesi_save'
+  data_path: '2019data/train/image'
+  gt_path: '2019data/train/label'
+  pred_data_path: '2019data/test/image'
+  pred_gt_path: '2019data/test/label'
+#brats2021数据集
+  # dataname: "brats2021" 
+  # dark_path: '2021data/train/ceshi_save'
+  # data_path: '2021data/train/image'
+  # gt_path: '2021data/train/label'
+  # pred_data_path: '2021data/test/image'
+  # pred_gt_path: '2021data/test/label'
+  # dataname: "FemurData" 
+  # dark_path: 'FemurData/train/ceshi_save'
+  # data_path: 'FemurData/train/image'
+  # gt_path: 'FemurData/train/label'
+  # # data_path: 'FemurData/train/quanjiandu/image'
+  # # gt_path: 'FemurData/train/quanjiandu/label'
+  # pred_data_path: 'FemurData/test/image'
+  # pred_gt_path: 'FemurData/test/label'
+  # dataname: "CAS2023"
+  # dark_path: 'CAS2023/train/ceshi_save'
+  # data_path: 'CAS2023/train/image'
+  # gt_path: 'CAS2023/train/label'
+  # pred_data_path: 'CAS2023/test/image'
+  # pred_gt_path: 'CAS2023/test/label'
+
+  init_type: 'none'  # ['normal', 'xavier', 'xavier_uniform', 'kaiming', 'orthogonal', 'none]
+  aug: False  # True or False
+  epochs: 100
+  epochs_per_checkpoint: 20
+  batch_size: 4
+  init_lr: 0.001
+  scheduler_step_size: 20
+  scheduler_gamma: 0.8
+  cudnn_enabled: True
+  cudnn_benchmark: True
+  use_scheduler: True
+  
+  pre_epochs: 20
+
+
+  ema_alpha: 0.999
+  consistency: 0.1 
+  consistency_rampup: 40 
+  labeled_num: 50     # 2019:50/2021:200/FemurData:26/CAS2023:16
+  labeled_bs: 2         
+
+
+  job_name: ${hydra:job.name}
+  hydra_path: ${hydra:runtime.output_dir}
